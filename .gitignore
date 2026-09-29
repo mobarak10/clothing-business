@@ -1,0 +1,14 @@
+# backend/ and frontend/ each carry their own .gitignore.
+# This file only covers junk that lands at the repo root.
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+
+*.log

@@ -1,0 +1,199 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+
+   The storefront is deliberately near-monochrome: imagery carries the colour,
+   the interface stays out of its way. Only two chromatic tokens exist (accent
+   for editorial emphasis, sale for markdowns) and both are used sparingly.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* Surfaces */
+  --color-paper: #faf9f7;
+  --color-paper-sunk: #f3f1ed;
+  --color-surface: #ffffff;
+
+  /* Ink */
+  --color-ink: #16161a;
+  --color-ink-soft: #4a4a4f;
+  --color-ink-muted: #86868c;
+
+  /* Structure */
+  --color-line: #e4e1dc;
+  --color-line-strong: #cfcac1;
+
+  /* Chromatic accents */
+  --color-accent: #7c6a52;
+  --color-accent-soft: #a3937c;
+  --color-sale: #9b2c2c;
+
+  /* Type */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Editorial rhythm: luxury layouts breathe more than app layouts do. */
+  --spacing-section: 6rem;
+  --spacing-section-lg: 9rem;
+
+  /* Motion: slow and understated, never bouncy. */
+  --ease-editorial: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --default-transition-duration: 400ms;
+  --default-transition-timing-function: var(--ease-editorial);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+  }
+
+  /* Keyboard users get a visible ring; pointer users don't. */
+  :focus-visible {
+    outline: 1px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Components
+
+   Only patterns that genuinely repeat across pages live here; everything else
+   stays in the component that owns it.
+--------------------------------------------------------------------------- */
+
+@layer components {
+  /* The site's standard horizontal gutter. */
+  .container-page {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 96rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container-page {
+      padding-inline: 4rem;
+    }
+  }
+
+  /* Small caps label used for eyebrows, nav items and buttons. */
+  .label-caps {
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  /* Underline that grows from the left on hover -- the site's only link flourish. */
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--default-transition-duration) var(--ease-editorial);
+  }
+
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9375rem 2rem;
+    border: 1px solid transparent;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background-color var(--default-transition-duration) var(--ease-editorial),
+      color var(--default-transition-duration) var(--ease-editorial),
+      border-color var(--default-transition-duration) var(--ease-editorial);
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .btn-primary:not(:disabled):hover {
+    background-color: var(--color-accent);
+  }
+
+  .btn-outline {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+
+  .btn-outline:not(:disabled):hover {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
